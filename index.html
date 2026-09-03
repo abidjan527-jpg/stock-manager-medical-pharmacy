@@ -1,62 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Digital Clock - Multi Timezone</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>World Clock — Multi Timezone</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Minimal styles to ensure the page looks reasonable even if styles.css is missing */
+    :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;margin:0}
+    body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f6f7fb;color:#111}
+    .container{max-width:980px;width:100%;padding:24px}
+    h1{margin:0 0 18px;font-size:1.6rem}
+    .clock-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+    .clock-card{background:#fff;border-radius:8px;padding:14px;box-shadow:0 1px 4px rgba(16,24,40,.06);text-align:center}
+    .clock-card h2{font-size:1rem;margin:0 0 8px}
+    .time{font-variant-numeric:tabular-nums;font-size:1.4rem;font-weight:600}
+    .timezone{color:#6b7280;margin-top:6px;font-size:.9rem}
+    .local-time{margin-top:18px;text-align:center}
+    .muted{color:#6b7280;font-size:.9rem}
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>World Clock</h1>
-        <div class="clock-grid">
-            <div class="clock-card">
-                <h2>New York (EST)</h2>
-                <div class="time" id="time-newyork">00:00:00</div>
-                <p class="timezone">UTC-5</p>
-            </div>
-            <div class="clock-card">
-                <h2>London (GMT)</h2>
-                <div class="time" id="time-london">00:00:00</div>
-                <p class="timezone">UTC+0</p>
-            </div>
-            <div class="clock-card">
-                <h2>Paris (CET)</h2>
-                <div class="time" id="time-paris">00:00:00</div>
-                <p class="timezone">UTC+1</p>
-            </div>
-            <div class="clock-card">
-                <h2>Dubai (GST)</h2>
-                <div class="time" id="time-dubai">00:00:00</div>
-                <p class="timezone">UTC+4</p>
-            </div>
-            <div class="clock-card">
-                <h2>Tokyo (JST)</h2>
-                <div class="time" id="time-tokyo">00:00:00</div>
-                <p class="timezone">UTC+9</p>
-            </div>
-            <div class="clock-card">
-                <h2>Sydney (AEDT)</h2>
-                <div class="time" id="time-sydney">00:00:00</div>
-                <p class="timezone">UTC+11</p>
-            </div>
-            <div class="clock-card">
-                <h2>Los Angeles (PST)</h2>
-                <div class="time" id="time-losangeles">00:00:00</div>
-                <p class="timezone">UTC-8</p>
-            </div>
-            <div class="clock-card">
-                <h2>Singapore (SGT)</h2>
-                <div class="time" id="time-singapore">00:00:00</div>
-                <p class="timezone">UTC+8</p>
-            </div>
-        </div>
-        <div class="local-time">
-            <h3>Your Local Time</h3>
-            <div class="time" id="time-local">00:00:00</div>
-        </div>
-    </div>
+  <main class="container" role="main">
+    <h1>World Clock</h1>
+    <p class="muted">Times update every second. All times use IANA time zone names for accuracy.</p>
 
-    <script src="script.js"></script>
+    <section class="clock-grid" aria-label="World clocks">
+      <article class="clock-card" data-timezone="America/New_York">
+        <h2>New York (EST)</h2>
+        <div class="time" data-time-id="America/New_York">--:--:--</div>
+        <p class="timezone">America/New_York (UTC offset shown below)</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Europe/London">
+        <h2>London (GMT)</h2>
+        <div class="time" data-time-id="Europe/London">--:--:--</div>
+        <p class="timezone">Europe/London</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Europe/Paris">
+        <h2>Paris (CET)</h2>
+        <div class="time" data-time-id="Europe/Paris">--:--:--</div>
+        <p class="timezone">Europe/Paris</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Asia/Dubai">
+        <h2>Dubai (GST)</h2>
+        <div class="time" data-time-id="Asia/Dubai">--:--:--</div>
+        <p class="timezone">Asia/Dubai</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Asia/Tokyo">
+        <h2>Tokyo (JST)</h2>
+        <div class="time" data-time-id="Asia/Tokyo">--:--:--</div>
+        <p class="timezone">Asia/Tokyo</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Australia/Sydney">
+        <h2>Sydney (AEDT)</h2>
+        <div class="time" data-time-id="Australia/Sydney">--:--:--</div>
+        <p class="timezone">Australia/Sydney</p>
+      </article>
+
+      <article class="clock-card" data-timezone="America/Los_Angeles">
+        <h2>Los Angeles (PST)</h2>
+        <div class="time" data-time-id="America/Los_Angeles">--:--:--</div>
+        <p class="timezone">America/Los_Angeles</p>
+      </article>
+
+      <article class="clock-card" data-timezone="Asia/Singapore">
+        <h2>Singapore (SGT)</h2>
+        <div class="time" data-time-id="Asia/Singapore">--:--:--</div>
+        <p class="timezone">Asia/Singapore</p>
+      </article>
+    </section>
+
+    <section class="local-time" aria-label="Your local time">
+      <h3>Your Local Time</h3>
+      <div class="time" id="time-local">--:--:--</div>
+      <p class="timezone" id="local-tz">Detecting time zone…</p>
+    </section>
+  </main>
+
+  <script>
+    (function(){
+      // List of elements with data-time-id equal to an IANA time zone name.
+      const timeEls = Array.from(document.querySelectorAll('[data-time-id]'));
+      const localEl = document.getElementById('time-local');
+      const localTzEl = document.getElementById('local-tz');
+
+      function formatTime(date, timeZone){
+        try{
+          return new Intl.DateTimeFormat(undefined, {
+            hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false, timeZone
+          }).format(date);
+        }catch(e){
+          // Fallback: show local time if the timeZone is unsupported
+          return date.toLocaleTimeString();
+        }
+      }
+
+      function utcOffsetString(date, timeZone){
+        try{
+          const fmt = new Intl.DateTimeFormat('en-US', {timeZone, timeZoneName: 'short'});
+          const parts = fmt.formatToParts(date);
+          const tz = parts.find(p=>p.type==='timeZoneName');
+          return tz ? tz.value : '';
+        }catch(e){
+          return '';
+        }
+      }
+
+      function updateClocks(){
+        const now = new Date();
+        // update each named clock
+        timeEls.forEach(el=>{
+          const tz = el.getAttribute('data-time-id');
+          el.textContent = formatTime(now, tz);
+          const card = el.closest('.clock-card');
+          const tzP = card && card.querySelector('.timezone');
+          if(tzP) tzP.textContent = `${tz} ${utcOffsetString(now, tz)}`.trim();
+        });
+        // local time
+        localEl.textContent = new Intl.DateTimeFormat(undefined, {hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(now);
+        const localTz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
+        localTzEl.textContent = localTz;
+      }
+
+      // Initialize and run every second
+      updateClocks();
+      setInterval(updateClocks, 1000);
+    })();
+  </script>
 </body>
 </html>
