@@ -1,0 +1,30 @@
+name: Codex Integration - Read and Write 
+
+on:
+pull_request:
+types: [opened, synchronize]
+push:
+branches:
+- main 
+
+jobs:
+codex-sync:
+runs-on: ubuntu-latest
+permissions:
+contents: write
+pull-requests: write
+statuses: write 
+
+steps:
+
+* name: Checkout repository
+uses: actions/checkout@v4
+with:
+fetch-depth: 0
+* name: Run Codex Connector Action
+uses: openai/codex-action@main
+with:
+openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+github-token: ${{ secrets.GITHUB_TOKEN }}
+sandbox: workspace-write
+approval-policy: automatic
