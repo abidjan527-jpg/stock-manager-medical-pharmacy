@@ -1,0 +1,1 @@
+{"name":"Stock Manager Medical & Pharmacy","short_name":"Stock Manager","description":"Offline medicine stock, batch and expiry manager.","start_url":"./","display":"standalone","background_color":"#f3f7f6","theme_color":"#0f766e","icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

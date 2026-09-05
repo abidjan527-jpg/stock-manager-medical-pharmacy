@@ -1,0 +1,1 @@
+{"name":"stock-manager-medical-pharmacy","version":"1.0.0","private":true,"scripts":{"test":"node --test","check":"node --check inventory.js && node --check app.js && node --check sw.js && node --test"},"engines":{"node":">=18"}}
